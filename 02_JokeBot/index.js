@@ -11,7 +11,7 @@ const bot = new TelegramBot(process.env.TELEGRAM_TOKEN, { polling: true });
 bot.on('message', (option) => {
     console.log("Message received on the bot", option);
     const msg = option.text.toLowerCase();
-    if(msg === 'hello' || msg === 'hi') {
+    if(msg === 'hello' || msg === 'hi' || msg === '/start') {
         bot.sendMessage(option.chat.id, "Hello, I am a bot. I am here to help you find the latest jokes. Type /joke to get a joke");
     }
 });
