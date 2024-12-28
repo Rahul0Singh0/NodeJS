@@ -1,5 +1,8 @@
 import express from 'express';
-import path from 'path';
+import { PORT } from './config/serverConfig.js';
+import tweetRouter from './routes/V1/tweet.js';
+import apiRouter from './routes/apiRoutes.js';
+
 const app = express();
 
 console.log(import.meta);
@@ -8,10 +11,20 @@ app.set('view engine', 'ejs');
 
 app.set('views', import.meta.dirname + '/views');
 
+app.use('/api', apiRouter); // localhost:3000/tweets
+
 app.get('/', (req, res) => {
     res.render('home', {name: 'John Doe'});
 });
 
-app.listen(3000, () => {
-    console.log('Server is running on port 3000');
+
+
+app.all('*', (req, res) => {
+    return res.status(404).json({
+        message: 'Not Found'
+    });
+});
+
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
 });
