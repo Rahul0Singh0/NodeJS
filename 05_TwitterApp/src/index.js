@@ -6,7 +6,7 @@ import connectDB from './config/dbConfig.js';
 
 // Create a new express app/server object
 const app = express();
-console.log(import.meta);
+// console.log(import.meta);
 app.set('view engine', 'ejs');
 
 app.set('views', import.meta.dirname + '/views');
