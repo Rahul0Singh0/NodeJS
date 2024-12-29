@@ -12,7 +12,7 @@ export const getTweetById = (req, res) => {
 }
 
 export const createTweet = (req, res) => {
-    return res.josn({
+    return res.json({
         message: 'Welcome to the tweet route',
         body: req.body
     });
