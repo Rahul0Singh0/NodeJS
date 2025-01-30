@@ -4,6 +4,7 @@ import { createTweet as createTweetService, getTweets as getTweetsService,
     deleteTweet as deleteTweetService,
     updateTweet as updateTweetService
 } from "../services/tweetService.js";
+import { errorResponse, successResponse } from "../utils/response.js";
 
 
 export const createTweet = async (req, res) => {
@@ -16,102 +17,44 @@ export const createTweet = async (req, res) => {
             body: req.body.body,
             image: req.file?.path,
         });
-        return res.status(StatusCodes.CREATED).json({
-            success: true,
-            data: response,
-            message: 'Tweet created successfully'
-        });
+        return successResponse(response, StatusCodes.CREATED, 'Tweet created successfully', res);
     } catch(error) {
-        console.log(error);
-        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
-            message: 'Internal server error',
-            success: false
-        });
+        return errorResponse(error);
     }
 }
 
 export const getTweets = async (req, res) => {
     try {
         const response = await getTweetsService();
-        return res.status(StatusCodes.OK).json({
-            success: true,
-            data: response,
-            message: 'Tweets fetched successfully'
-        });
+        return successResponse(response, StatusCodes.OK, 'Tweets fetched successfully', res);
     } catch(error) {
-        console.log(error);
-        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
-            message: 'Internal server error',
-            success: false
-        });
+        return errorResponse(error);
     }
 }
 
 export const getTweetById = async (req, res) => {
     try {
         const response = await getTweetByIdService(req.params.id);
-        return res.status(StatusCodes.OK).json({
-            success: true,
-            data: response,
-            message: 'Tweet fetched successfully'
-        });
+        return successResponse(response, StatusCodes.OK, 'Tweets fetched successfully', res);
     } catch(error) {
-        console.log(error);
-        if(error.status) {
-            return res.status(error.status).json({
-                message: error.message,
-                success: false,
-            });
-        }
-        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
-            message: 'Internal server error',
-            success: false
-        });
+        return errorResponse(error);
     }
 }
 
 export const deleteTweet = async (req, res) => {
     try {
         const response = await deleteTweetService(req.params.id);
-        return res.status(StatusCodes.OK).json({
-            success: true,
-            message: 'Successfully deleted the tweet',
-            data: response,
-        });
+        return successResponse(response, StatusCodes.OK, 'Successfully deleted the tweet', res);
     } catch(error) {
-        console.log(error);
-        if(error.status) {
-            return res.status(error.status).json({
-                message: error.message,
-                success: false,
-            });
-        }
-        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
-            message: 'Something went wrong',
-            success: false,
-        });
+        return errorResponse(error);
     }
 }
 
 export const updateTweet = async (req, res) => {
     try {
         const response = await updateTweetService(req.params.id, req.body.body);
-        return res.status(StatusCodes.OK).json({
-            success: true,
-            message: 'Successfully updated the tweet',
-            data: response,
-        });
+        return successResponse(response, StatusCodes.OK, 'Successfully updated the tweet', res);
     } catch(error) {
-        console.log(error);
-        if(error.status) {
-            return res.status(error.status).json({
-                message: error.message,
-                success: false,
-            });
-        }
-        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
-            success: false,
-            message: 'Internal server error',
-        });
+        return errorResponse(error);
     }
 }
