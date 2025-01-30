@@ -3,6 +3,7 @@ export const validate = (schema) => {
     return async function middleware(req, res, next) {
         try {
             console.log(req.body);
+            console.log(req.file);
             schema.parse(req.body);
             next();
         } catch(error) {

@@ -20,7 +20,8 @@ export const createTweet = async (req, res) => {
     // });
     try {
         const response = await createTweetService({
-            body: req.body.body
+            body: req.body.body,
+            image: req.file?.path,
         });
         return res.status(201).json({
             success: true,
